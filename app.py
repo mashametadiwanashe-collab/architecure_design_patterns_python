@@ -45,7 +45,7 @@ ACTIVITY_FOR_API = {
     "very active": "extra_active",
 }
 
-from data.dict.dict import REQUESTS
+from singleton.requests import Requests
 
 
 @app.route("/log", methods=["POST"])
@@ -213,12 +213,13 @@ def list_notices():
 @app.route("/stats", methods=["GET"])
 @request_log
 def stats():
+    requests = Requests.get_instance()
     print("got a stats request")
     return jsonify(
         {
-            "count": REQUESTS["count"],
-            "last_path": REQUESTS["last_path"],
-            "last_seconds": REQUESTS["last_seconds"],
+            "count": requests.count,
+            "last_path": requests.last_path,
+            "last_seconds": requests.last_seconds,
         }
     )
 
